@@ -1,13 +1,11 @@
 import React from 'react';
 import CSS from 'csstype';
 import Nav from '../Components/Nav/Nav';
-import { LightTextColor, PrimaryColor } from '../Globals';
+import { LightTextColor, PrimaryColor, SecondaryColor, ThirdColor } from '../Globals';
 import Logo from '../Logo/bytegolf_logo-half.png';
-import { Button } from '@material-ui/core';
-import SportsGolfOutlinedIcon from '@material-ui/icons/SportsGolfOutlined';
-import CodeOutlinedIcon from '@material-ui/icons/CodeOutlined';
 import Markdown from '../Components/Markdown';
 import { HomeMarkdown } from '../HomeMarkdown';
+import Button from '../Components/Button/Button';
 
 
 const HomeScreen: React.FC = () => {
@@ -20,8 +18,8 @@ const HomeScreen: React.FC = () => {
           <p style={text}>BYTEGOLF</p>
           <p style={smallText}>Solve code problems in the least amount of bytes!</p>
           <div style={btnGroup}>
-            <Button style={{marginRight: '0.625rem'}} variant='contained' color='secondary' startIcon={<SportsGolfOutlinedIcon/>}>TEE OFF</Button>
-            <Button variant='contained' color='default' startIcon={<CodeOutlinedIcon/>}>SEE THE SOURCE CODE</Button>
+            <Button color={SecondaryColor} activeColor='white' fontSize='1.2rem' text="TEE OFF!"/>
+            <Button color={ThirdColor} activeColor='white' fontSize='1.2rem' text="SEE THE SOURCE CODE"/>
           </div>
         </div>
       </div>
@@ -88,7 +86,10 @@ const btnGroup: CSS.Properties = {
   height: 'auto',
   margin: '0 auto',
   marginTop: '2rem',
-  marginBottom: '0.625rem'
+  marginBottom: '0.625rem',
+
+  display: 'flex',
+  
 }
 
 export default HomeScreen;
