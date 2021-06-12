@@ -13,4 +13,15 @@ export type BasicLeaderboardEntry = {
   GitName: string;
   Score: number;
   Language: string;
+  HoleID: string;
+}
+
+export type BasicSubmission = {
+  ID: string; // random uuid
+  Score: number;
+  Language: string;
+  BGID: string;
+  GitName: string;
+  HoleID: string;
+  Correct: boolean;
 }

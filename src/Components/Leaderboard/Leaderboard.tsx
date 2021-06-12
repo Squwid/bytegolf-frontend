@@ -11,7 +11,7 @@ type Props = {
 }
 
 const Leaderboard: React.FC<Props> = (props) => {
-  const limit = !!props.limit ? props.limit : 5;
+  const limit = props.limit ? props.limit : 5;
   const leaders = BASIC_LEADERBOARDS;
 
   const classes = useStyles();

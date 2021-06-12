@@ -29,7 +29,6 @@ const Button: React.FC<Props> = (props) => {
       border: `3px ${props.color} solid`,
       backgroundColor: props.active ? PrimaryColor : 'white',
       cursor: 'pointer',
-      // fontWeight: 'bold',
       color: ThirdColor,
       letterSpacing: '-.08rem',
       margin: margin,
