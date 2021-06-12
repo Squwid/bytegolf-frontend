@@ -21,7 +21,8 @@ export type BasicSubmission = {
   Score: number;
   Language: string;
   BGID: string;
-  GitName: string;
+  GitName: string;  
   HoleID: string;
   Correct: boolean;
+  Script: string;
 }

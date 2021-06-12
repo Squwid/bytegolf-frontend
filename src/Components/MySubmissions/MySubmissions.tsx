@@ -5,10 +5,66 @@ import { createStyles } from '@material-ui/styles';
 import { PrimaryColor, SecondaryColor } from '../../Globals';
 import { BASIC_MY_SUBMISSIONS } from '../../Mock/BasicSubmissions';
 import { BasicSubmission } from '../../Types';
+import AceEditor from 'react-ace';
+
+import 'ace-builds/src-noconflict/ace';
+import 'ace-builds/src-noconflict/mode-golang';
+import 'ace-builds/src-noconflict/mode-javascript';
+import 'ace-builds/src-noconflict/mode-typescript';
+import 'ace-builds/src-noconflict/mode-python';
+import 'ace-builds/src-noconflict/mode-c_cpp';
+import 'ace-builds/src-noconflict/theme-crimson_editor';
+import Chip, { ChipProps } from '../Chip/Chip';
 
 
+
+const modalStyles = makeStyles({
+  modal: {
+    minHeight: '700px',
+    height: 'auto',
+    width: '850px',
+    backgroundColor: 'white',
+    padding: '15px',
+    margin: '0 auto',
+    marginTop: '100px',
+    overflowY: 'scroll',
+    // borderRadius: '5px',
+
+    fontFamily: 'FiraCode'
+  },
+  centerText: {
+    textAlign: 'center',
+    margin: '0'
+  },
+  chipHolder: {
+    height: 'auto',
+    width: '80%',
+    margin: '0 auto',
+    marginTop: '15px',
+    marginBottom: '10px',
+
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap'
+  }
+});
 
 const SubmissionModal: React.FC<{sub?: BasicSubmission, open: boolean, onClose: () => void}> = (props) => {
+  const classes = modalStyles();
+
+  let chips: ChipProps[] = [];
+  if (props.sub) {
+    chips = [
+      {ckey: 'SCORE', value: `${props.sub.Score}`, bgColor: PrimaryColor, secondaryTextColor: 'white'},
+      {ckey: 'LANGUAGE', value: props.sub.Language, bgColor: PrimaryColor, secondaryTextColor: 'white'},
+      {ckey: 'CORRECT', value: `${props.sub.Correct}`.toUpperCase(), bgColor: props.sub.Correct ? PrimaryColor : SecondaryColor, secondaryTextColor: 'white'},
+      {ckey: 'HOLE NAME', value: props.sub.HoleID.toUpperCase(), bgColor: PrimaryColor, secondaryTextColor: 'white'},
+      {ckey: 'SUBMITTED', value: `3 DAYS AGO`, bgColor: PrimaryColor, secondaryTextColor: 'white'}
+      
+    ]
+  }
+
   return (
     <Modal
       open={props.open && !!props.sub}
@@ -16,7 +72,24 @@ const SubmissionModal: React.FC<{sub?: BasicSubmission, open: boolean, onClose: 
       aria-describedby="Description"
       onClose={props.onClose}
     >
-      <p>{props.sub?.Language}</p>
+      <div className={classes.modal}>
+        <p className={classes.centerText} style={{fontWeight: 'lighter', fontSize: '1.5rem', marginBottom: '1rem'}}>{props.sub?.ID}</p>
+        <div>
+          <div className={classes.chipHolder}>
+            {chips.map(chip => <Chip key={chip.ckey} {...chip} style={{marginRight: '5px', marginBottom: '10px'}}/>)}
+
+          </div>
+          <AceEditor 
+            mode={props.sub?.Language}
+            theme="crimson_editor"
+            style={{width: '80%', height: 'auto', minHeight: '500px', margin: '0 auto'}}
+            readOnly={true}
+            defaultValue={props.sub?.Script}
+            wrapEnabled={true}
+          />
+        </div>
+      </div>
+
     </Modal>
   );
 }
