@@ -14,7 +14,8 @@ import "fmt"
 
 func main() {
   fmt.Println("Hello, world!")
-}`
+}`,
+  HoleName: 'Print Hello, World using Golang'
   }, 
   {
     ID: '55e2e285-2491-4898-bf49-d4bbd22297be',
@@ -26,7 +27,8 @@ func main() {
     Correct: true,
     Script: `
     print('hello, world!')
-    `
+    `,
+    HoleName: 'This is a Fake Hole, Maybe a Longer Name'
   },
   {
     ID: '2b7b97f8-94f7-43e1-a6ef-650347eb2262',
@@ -36,7 +38,8 @@ func main() {
     GitName: 'Squwid',
     HoleID: 'fake',
     Correct: false,
-    Script: `console.log('hello, world!')`
+    Script: `console.log('hello, world!')`,
+    HoleName: 'Print "Hello, world!" using python'
   },
   {
     ID: 'e58a80f1-d9e3-44b3-883e-b8c1e4af271d',
@@ -84,7 +87,8 @@ func main() {
     
     
     
-    asdfasdfkaldkjsflaksdf`
+    asdfasdfkaldkjsflaksdf`,
+    HoleName: 'Longest Submission Name'
   },
   {
     ID: '4e79bace-72ad-4771-8cee-b5d585ff8726',
@@ -94,6 +98,7 @@ func main() {
     GitName: 'Squwid',
     HoleID: 'fake',
     Correct: false,
-    Script: 'short'
+    Script: 'short',
+    HoleName: 'This is a Full Hole Name'
   }
 ];

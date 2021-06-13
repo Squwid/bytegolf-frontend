@@ -56,10 +56,10 @@ const SubmissionModal: React.FC<{sub?: BasicSubmission, open: boolean, onClose: 
   let chips: ChipProps[] = [];
   if (props.sub) {
     chips = [
+      {ckey: 'HOLE NAME', value: props.sub.HoleName.toUpperCase(), bgColor: PrimaryColor, secondaryTextColor: 'white'},
       {ckey: 'SCORE', value: `${props.sub.Score}`, bgColor: PrimaryColor, secondaryTextColor: 'white'},
       {ckey: 'LANGUAGE', value: props.sub.Language, bgColor: PrimaryColor, secondaryTextColor: 'white'},
       {ckey: 'CORRECT', value: `${props.sub.Correct}`.toUpperCase(), bgColor: props.sub.Correct ? PrimaryColor : SecondaryColor, secondaryTextColor: 'white'},
-      {ckey: 'HOLE NAME', value: props.sub.HoleID.toUpperCase(), bgColor: PrimaryColor, secondaryTextColor: 'white'},
       {ckey: 'SUBMITTED', value: `3 DAYS AGO`, bgColor: PrimaryColor, secondaryTextColor: 'white'}
       
     ]
@@ -101,58 +101,94 @@ const MySubmissions: React.FC<Props> = (props) => {
   const [subModal, setSubModal] = React.useState<BasicSubmission|undefined>(undefined);
 
   // TODO: When making the call make sure that the user is logged in
-  const singleHole = !!props.holeID;
+
   let submissions = BASIC_MY_SUBMISSIONS;
   const classes = useStyles();
-
+  
   if (submissions.length === 0) {
     return (
       <p style={{fontFamily:'FiraCode', fontWeight: 'lighter', textAlign: 'center'}}>NO SUBMISSIONS YET</p>
     );
   }
-
+  
   const onClick = (sub: BasicSubmission) => {
     if (subModal) return;
     setSubModal(sub);
   }
-
+  
   const onClose = () => {
     setSubModal(undefined);
   }
-
-  let best_score: BasicSubmission|null = BASIC_MY_SUBMISSIONS[0];
-  best_score.Score = 15;
-
-  const row = (sub: BasicSubmission, best?: boolean) => (
-    <TRow className={best ? classes.best : sub.Correct ? classes.correct : classes.incorrect} key={sub.ID} onClick={() => onClick(sub)}>
-      <TCell padding={'none'} style={{padding:'5px'}} component="th" scope="row">{best ? "BEST SCORE" : sub.ID.substr(0, 8)}</TCell>
-      <TCell padding={'none'} style={{padding:'5px'}} align='right' scope="row">2 HOURS AGO</TCell>
-      <TCell padding={'none'} style={{padding:'5px'}} align='right' scope="row">{sub.Score}</TCell>
-      <TCell padding={'none'} style={{padding:'5px'}} align='right' scope="row">{sub.Language}</TCell>
-    </TRow>
-  );
   
-  return (
-    <>
-    <TableContainer>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TCell>ID</TCell>
-            <TCell align='right'>SUBMITTED</TCell>
-            <TCell align='right'>SCORE</TCell>
-            <TCell align='right'>LANGUAGE</TCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {best_score && (row(best_score, true))}
-          {submissions.map(sub => row(sub))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    <SubmissionModal sub={subModal} onClose={onClose} open={subModal!==undefined}/>
-    </>
-  )
+  const singleHole = !!props.holeID;
+  if (singleHole) {
+    let best_score: BasicSubmission|null = BASIC_MY_SUBMISSIONS[0];
+    best_score.Score = 15;
+  
+    const row = (sub: BasicSubmission, best?: boolean) => (
+      <TRow className={best ? classes.best : sub.Correct ? classes.correct : classes.incorrect} key={sub.ID} onClick={() => onClick(sub)}>
+        <TCell padding={'none'} style={{padding:'5px'}} component="th" scope="row">{best ? "BEST SCORE" : sub.ID.substr(0, 8)}</TCell>
+        <TCell padding={'none'} style={{padding:'5px'}} align='right' scope="row">2 HOURS AGO</TCell>
+        <TCell padding={'none'} style={{padding:'5px'}} align='right' scope="row">{sub.Score}</TCell>
+        <TCell padding={'none'} style={{padding:'5px'}} align='right' scope="row">{sub.Language}</TCell>
+      </TRow>
+    );
+    
+    return (
+      <>
+      <TableContainer>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TCell>ID</TCell>
+              <TCell align='right'>SUBMITTED</TCell>
+              <TCell align='right'>SCORE</TCell>
+              <TCell align='right'>LANGUAGE</TCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {best_score && (row(best_score, true))}
+            {submissions.map(sub => row(sub))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <SubmissionModal sub={subModal} onClose={onClose} open={subModal!==undefined}/>
+      </>
+    )
+  } else {
+    const row = (sub: BasicSubmission) => (
+      <TRow className={sub.Correct ? classes.correct : classes.incorrect} key={sub.ID} onClick={() => onClick(sub)}>
+        <TCell padding={'none'} style={{padding:'5px'}} component="th" scope="row">{sub.ID.substr(0, 8)}</TCell>
+        <TCell padding={'none'} style={{padding:'5px'}} align='left' scope="row">{sub.HoleName.substr(0,35)}</TCell>
+        <TCell padding={'none'} style={{padding:'5px'}} align='right' scope="row">2 HOURS AGO</TCell>
+        <TCell padding={'none'} style={{padding:'5px'}} align='right' scope="row">{sub.Score}</TCell>
+        <TCell padding={'none'} style={{padding:'5px'}} align='right' scope="row">{sub.Language}</TCell>
+      </TRow>
+    );
+    
+    return (
+      <>
+      <TableContainer>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TCell>ID</TCell>
+              <TCell align='left'>HOLE NAME</TCell>
+              <TCell align='right'>SUBMITTED</TCell>
+              <TCell align='right'>SCORE</TCell>
+              <TCell align='right'>LANGUAGE</TCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {submissions.map(sub => row(sub))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <SubmissionModal sub={subModal} onClose={onClose} open={subModal!==undefined}/>
+      </>
+    )
+  }
+
 }
 
 const TCell = withStyles((theme: Theme) => createStyles({

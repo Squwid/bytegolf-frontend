@@ -4,6 +4,7 @@ import HomeScreen from './Screens/HomeScreen';
 import LeaderboardScreen from './Screens/LeaderboardScreen';
 import NotFoundScreen from './Screens/NotFoundScreen';
 import ProfileScreen from './Screens/ProfileScreen';
+import RecentScreen from './Screens/RecentScreen';
 
 const Router = () => {
   return (
@@ -12,6 +13,7 @@ const Router = () => {
         <Route exact path={'/'} component={HomeScreen} />
         <Route exact path={'/play'} component={HolesScreen} />
         <Route exact path={'/leaderboard'} component={LeaderboardScreen} />
+        <Route exact path={'/recent'} component={RecentScreen} />
         <Route exact path={'/profile/:bgid'} component={ProfileScreen} />
 
         <Route component={NotFoundScreen} />

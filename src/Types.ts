@@ -23,6 +23,7 @@ export type BasicSubmission = {
   BGID: string;
   GitName: string;  
   HoleID: string;
+  HoleName: string;
   Correct: boolean;
   Script: string;
 }
