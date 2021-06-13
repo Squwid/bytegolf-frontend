@@ -6,7 +6,7 @@ import Logo from '../../Logo/bytegolf_logo-half.png';
 import './Nav.css';
 
 type Props = {
-  active: 'home'|'play'|'recent'|'leaderboards'|'profile';
+  active: 'home'|'play'|'recent'|'leaderboards'|'profile'|'none';
 }
 
 const Nav: React.FC<Props> = (props) => {
