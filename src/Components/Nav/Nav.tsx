@@ -6,7 +6,7 @@ import Logo from '../../Logo/bytegolf_logo-half.png';
 import './Nav.css';
 
 type Props = {
-  active: 'home'|'play'|'recent'|'leaderboards';
+  active: 'home'|'play'|'recent'|'leaderboards'|'profile';
 }
 
 const Nav: React.FC<Props> = (props) => {
@@ -30,7 +30,7 @@ const Nav: React.FC<Props> = (props) => {
           {link('PLAY')}
           {link('RECENT')}
           {link('LEADERBOARDS')}
-          {link('LOGIN')}
+          {link('PROFILE')}
         </div>
 
 

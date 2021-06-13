@@ -26,3 +26,12 @@ export type BasicSubmission = {
   Correct: boolean;
   Script: string;
 }
+
+export type BasicProfile = {
+  BGID: string;
+  CreatedTime: Date;
+  URL: string;
+  AvatarURL: string;
+  ID: string;
+  Login: string; // Login is profile name
+}

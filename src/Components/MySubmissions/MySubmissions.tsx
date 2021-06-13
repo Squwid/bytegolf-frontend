@@ -102,12 +102,13 @@ const MySubmissions: React.FC<Props> = (props) => {
 
   // TODO: When making the call make sure that the user is logged in
   const singleHole = !!props.holeID;
-  const submissions = BASIC_MY_SUBMISSIONS;
+  let submissions = BASIC_MY_SUBMISSIONS;
   const classes = useStyles();
-  
-  // TODO: Make this look nicer or have some sort of text
+
   if (submissions.length === 0) {
-    return (<></>);
+    return (
+      <p style={{fontFamily:'FiraCode', fontWeight: 'lighter', textAlign: 'center'}}>NO SUBMISSIONS YET</p>
+    );
   }
 
   const onClick = (sub: BasicSubmission) => {
