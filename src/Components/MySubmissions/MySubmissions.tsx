@@ -6,6 +6,7 @@ import { PrimaryColor, SecondaryColor } from '../../Globals';
 import { BASIC_MY_SUBMISSIONS } from '../../Mock/BasicSubmissions';
 import { BasicSubmission } from '../../Types';
 import AceEditor from 'react-ace';
+import Chip, { ChipProps } from '../Chip/Chip';
 
 import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-golang';
@@ -14,7 +15,6 @@ import 'ace-builds/src-noconflict/mode-typescript';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/mode-c_cpp';
 import 'ace-builds/src-noconflict/theme-crimson_editor';
-import Chip, { ChipProps } from '../Chip/Chip';
 
 
 
@@ -156,6 +156,8 @@ const MySubmissions: React.FC<Props> = (props) => {
       </>
     )
   } else {
+    // TODO: Add pagination to the table at some point
+
     const row = (sub: BasicSubmission) => (
       <TRow className={sub.Correct ? classes.correct : classes.incorrect} key={sub.ID} onClick={() => onClick(sub)}>
         <TCell padding={'none'} style={{padding:'5px'}} component="th" scope="row">{sub.ID.substr(0, 8)}</TCell>

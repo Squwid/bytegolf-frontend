@@ -1,6 +1,8 @@
+export type difficultyType = 'easy'|'impossible'|'difficult'|'hard'|'medium';
+
 export type BasicHole = {
   ID: string;
-  Difficulty: string;
+  Difficulty: difficultyType;
   Name: string;
   Question: string;
   LowestScore: number;
@@ -36,3 +38,5 @@ export type BasicProfile = {
   ID: string;
   Login: string; // Login is profile name
 }
+
+

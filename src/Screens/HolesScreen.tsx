@@ -6,27 +6,8 @@ import { BASIC_HOLES } from '../Mock/BasicHoles';
 import Nav from '../Components/Nav/Nav';
 import { PrimaryColor } from '../Globals';
 import './screen.css'
+import { Difficulty } from '../Components/Difficulty';
 
-const difficulty = (d: string): JSX.Element => {
-  let color = 'black';
-  switch (d) {
-  case 'EASY':
-    color = '#20C639'
-    break;
-  case 'IMPOSSIBLE':
-    color = '#FF009D'
-    break;
-  case 'DIFFICULT':
-  case 'HARD':
-    color = '#E31717'
-    break;
-  case 'MEDIUM':
-    color = '#EB9F45'
-    break;
-  }
-
-  return (<p style={{color: color}}>{d}</p>);
-}
 
 const HolesScreen: React.FC = () => {
   const classes = useStyles();
@@ -51,7 +32,7 @@ const HolesScreen: React.FC = () => {
                 <TRow key={hole.ID} onClick={() => console.log(`clicked ${hole.ID}`)}>
                   <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} component="th" scope="row">{hole.Name.toUpperCase()}</TCell>
                   <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'>{hole.LowestScore}</TCell>
-                  <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'>{difficulty(hole.Difficulty)}</TCell>
+                  <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'><Difficulty difficulty={hole.Difficulty} /></TCell>
                 </TRow>
               ))}
             </TableBody>

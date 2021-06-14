@@ -18,8 +18,8 @@ const HomeScreen: React.FC = () => {
           <p style={text}>BYTEGOLF</p>
           <p style={smallText}>Solve code problems in the least amount of bytes!</p>
           <div style={btnGroup}>
-            <Button color={SecondaryColor} activeColor='white' fontSize='1.2rem' text="TEE OFF!"/>
-            <Button color={ThirdColor} activeColor='white' fontSize='1.2rem' text="SEE THE SOURCE CODE"/>
+            <Button color={SecondaryColor} activeColor='white' fontSize='1.1rem' text="TEE OFF!"/>
+            <Button color={ThirdColor} activeColor='white' fontSize='1.1rem' text="SEE THE SOURCE CODE"/>
           </div>
         </div>
       </div>
