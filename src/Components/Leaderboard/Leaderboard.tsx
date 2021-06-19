@@ -4,6 +4,7 @@ import { createStyles } from '@material-ui/styles';
 import { makeStyles, Theme, withStyles } from '@material-ui/core/styles';
 import { PrimaryColor } from '../../Globals';
 import { BASIC_LEADERBOARDS } from '../../Mock/BasicLeaderboards';
+import { useHistory } from 'react-router-dom';
 
 type Props = {
   holeID: string;
@@ -15,6 +16,7 @@ const Leaderboard: React.FC<Props> = (props) => {
   const leaders = BASIC_LEADERBOARDS;
 
   const classes = useStyles();
+  const history = useHistory();
 
   // TODO: add a check if no leaders for hole yet
 
@@ -31,7 +33,7 @@ const Leaderboard: React.FC<Props> = (props) => {
         </TableHead>
         <TableBody>
           {leaders.map(leader => (
-            <TRow key={leader.ID} onClick={() => console.log(`go to profile ${leader.BGID}`)}>
+            <TRow key={leader.ID} onClick={() => history.push(`/profile/${leader.BGID}`)}>
               <TCell padding={'none'} style={{padding: '10px'}} component="th" scope="row">{leader.Place}</TCell>
               <TCell padding={'none'} style={{padding: '10px'}} align='left'>{leader.GitName.toUpperCase()}</TCell>
               <TCell padding={'none'} style={{padding: '10px'}} align='right'>{leader.Score}</TCell>

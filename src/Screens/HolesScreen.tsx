@@ -7,10 +7,13 @@ import Nav from '../Components/Nav/Nav';
 import { PrimaryColor } from '../Globals';
 import './screen.css'
 import { Difficulty } from '../Components/Difficulty';
+import { Redirect, useHistory } from 'react-router-dom';
 
 
 const HolesScreen: React.FC = () => {
   const classes = useStyles();
+  
+  const history = useHistory();
 
   return (
     <div>
@@ -29,10 +32,10 @@ const HolesScreen: React.FC = () => {
             </TableHead>
             <TableBody>
               {BASIC_HOLES.map(hole => (
-                <TRow key={hole.ID} onClick={() => console.log(`clicked ${hole.ID}`)}>
-                  <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} component="th" scope="row">{hole.Name.toUpperCase()}</TCell>
-                  <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'>{hole.LowestScore}</TCell>
-                  <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'><Difficulty difficulty={hole.Difficulty} /></TCell>
+                <TRow key={hole.ID} onClick={() => history.push(`/play/${hole.ID}`)}>
+                    <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} component="th" scope="row">{hole.Name.toUpperCase()}</TCell>
+                    <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'>{hole.LowestScore}</TCell>
+                    <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'><Difficulty difficulty={hole.Difficulty} /></TCell>
                 </TRow>
               ))}
             </TableBody>

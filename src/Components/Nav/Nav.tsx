@@ -4,16 +4,20 @@ import CSS from 'csstype';
 import '../../Fonts/FiraCode/fira-code.css';
 import Logo from '../../Logo/bytegolf_logo-half.png';
 import './Nav.css';
+import { Link } from 'react-router-dom';
 
 type Props = {
   active: 'home'|'play'|'recent'|'leaderboards'|'profile'|'none';
 }
 
 const Nav: React.FC<Props> = (props) => {
-  const link = (txt: string): JSX.Element => {
+  const link = (txt: string, to: string): JSX.Element => {
     let cName = props.active === txt.toLowerCase() ? "selected" : "text";
 
-    return (<p className={cName}>{txt}</p>);
+    return (
+      <Link style={{textDecoration: 'none'}} to={to} className={cName}>{txt}</Link>
+      // <p className={cName}>{txt}</p>
+    );
   }
 
   return (
@@ -22,15 +26,15 @@ const Nav: React.FC<Props> = (props) => {
         {/* Logo and Bytegolf text */}
         <div style={multiLinkContainer}>
           <img style={logo} src={Logo} alt="Bytegolf Logo" />
-          {link('BYTEGOLF')}
+          {link('BYTEGOLF', '/')}
         </div>
 
         {/* Actual links */}
         <div style={multiLinkContainer}>
-          {link('PLAY')}
-          {link('RECENT')}
-          {link('LEADERBOARDS')}
-          {link('PROFILE')}
+          {link('PLAY', '/play')}
+          {link('RECENT', '/recent')}
+          {link('LEADERBOARDS', '/leaderboard')}
+          {link('PROFILE', '/') /*  Profile page */} 
         </div>
 
 

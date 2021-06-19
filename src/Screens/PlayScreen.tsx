@@ -6,7 +6,12 @@ import { BASIC_HOLES } from '../Mock/BasicHoles';
 import { FormControl, MenuItem, Select } from '@material-ui/core';
 import { AvailableLanguages, getLanguage, Language } from '../Languages';
 import AceEditor from 'react-ace';
+import { PrimaryColor, SecondaryColor } from '../Globals';
+import Button from '../Components/Button/Button';
+import MySubmissions from '../Components/MySubmissions/MySubmissions';
+import Notification from '../Components/Notification/Notification';
 import './screen.css';
+import { useLocation } from 'react-router-dom';
 
 import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-python';
@@ -20,9 +25,6 @@ import 'ace-builds/src-noconflict/mode-golang';
 import 'ace-builds/src-noconflict/mode-powershell';
 import 'ace-builds/src-noconflict/mode-batchfile';
 import 'ace-builds/src-noconflict/theme-crimson_editor';
-import { PrimaryColor, SecondaryColor } from '../Globals';
-import Button from '../Components/Button/Button';
-import MySubmissions from '../Components/MySubmissions/MySubmissions';
 
 const PlayScreen: React.FC = () => {
   const { holeID } = useParams<{holeID: string}>();
@@ -30,6 +32,12 @@ const PlayScreen: React.FC = () => {
   const [ isLoading, setIsLoading ] = React.useState(false);
   const [ len, setLen ] = React.useState(0);
   const [ script, setScript ] = React.useState('');
+
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   const hole = BASIC_HOLES[2];
 
@@ -60,7 +68,13 @@ const PlayScreen: React.FC = () => {
           {selectButton()}
         </div>
 
-        <div style={{margin: '0 auto', marginTop: '1rem', display: 'flex', flexDirection: 'row-reverse', flexWrap: 'nowrap', width: '80%'}}>
+        {/* Notifications, but multiple just in case */}
+        <div style={{margin: '0 auto', marginTop: '1rem', display: 'flex', flexDirection: 'column', width: '80%'}}>
+          <Notification type='info' text='This is a test run' style={{marginBottom: '1rem'}}/>
+          <Notification type='error' text='Dave found joy in the daily routine of life. He awoke at the same time, ate the same breakfast and drove the same commute.' style={{marginBottom: '1rem'}}/>
+        </div>
+
+        <div style={{margin: '0 auto', display: 'flex', flexDirection: 'row-reverse', flexWrap: 'nowrap', width: '80%'}}>
           <p style={{margin: 0, padding: 0, paddingRight: '10px'}}>BYTES: {len}</p>
         </div>
         <AceEditor
