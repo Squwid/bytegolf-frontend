@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { Difficulty } from '../Components/Difficulty';
 import Nav from '../Components/Nav/Nav';
-import { BASIC_HOLES } from '../Mock/BasicHoles';
 import { FormControl, MenuItem, Select } from '@material-ui/core';
 import { AvailableLanguages, getLanguage, Language } from '../Languages';
 import AceEditor from 'react-ace';
@@ -12,6 +11,9 @@ import MySubmissions from '../Components/MySubmissions/MySubmissions';
 import Notification from '../Components/Notification/Notification';
 import './screen.css';
 import { useLocation } from 'react-router-dom';
+import { GetHole } from '../Store/Holes';
+import { useQuery } from 'react-query';
+import NotFoundScreen from './NotFoundScreen';
 
 import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-python';
@@ -29,17 +31,18 @@ import 'ace-builds/src-noconflict/theme-crimson_editor';
 const PlayScreen: React.FC = () => {
   const { holeID } = useParams<{holeID: string}>();
   const [ activeLanguage, setActiveLanguage ] = React.useState<Language>(getLanguage('python2'));
-  const [ isLoading, setIsLoading ] = React.useState(false);
   const [ len, setLen ] = React.useState(0);
   const [ script, setScript ] = React.useState('');
-
   const { pathname } = useLocation();
-
+  
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  const hole = BASIC_HOLES[2];
+  const hole = useQuery(['Hole', holeID], () => GetHole(holeID));
+  if (hole.isLoading) return (<p>Loading...</p>);
+  if (hole.isError) return (<p>Error loading hole {hole.error}</p>);
+  if (!hole.data) return (<NotFoundScreen active='play' text={`Hole ${holeID} was not found`} />)
 
   const selectButton = (): JSX.Element => {
     return (
@@ -60,9 +63,9 @@ const PlayScreen: React.FC = () => {
     <div>
       <Nav active='play'/>
       <div className='screenContainer'>
-        <p className='screenTitle' style={{fontSize: '2.3rem', letterSpacing: '-0.09rem'}}>{hole.Name.toUpperCase()}</p>
-        <p className='screenSubText' style={{fontSize: '1.5rem'}}>{hole.Question.toUpperCase()}</p>
-        <Difficulty style={{fontSize:'1.3rem', textAlign: 'center'}} difficulty={hole.Difficulty} />
+        <p className='screenTitle' style={{fontSize: '2.3rem', letterSpacing: '-0.09rem'}}>{hole.data.Name.toUpperCase()}</p>
+        <p className='screenSubText' style={{fontSize: '1.5rem'}}>{hole.data?.Question.toUpperCase()}</p>
+        <Difficulty style={{fontSize:'1.3rem', textAlign: 'center'}} difficulty={hole.data.Difficulty} />
         <div style={{display: 'flex', justifyContent: 'center', flexWrap: 'nowrap', flexDirection: 'row'}}>
           <p style={{marginRight: '1rem'}}>LANGUAGE:</p>
           {selectButton()}
@@ -81,7 +84,7 @@ const PlayScreen: React.FC = () => {
           mode={activeLanguage.editorValue}
           theme='crimson_editor'
           style={{width: '80%', height: '600px', margin: '0 auto'}}
-          readOnly={isLoading}
+          // readOnly={isLoading}
           wrapEnabled={true}
           onChange={(val: string) => { setScript(val); setLen(val.length)}}
           value={script}

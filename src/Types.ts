@@ -1,11 +1,15 @@
-export type difficultyType = 'easy'|'impossible'|'difficult'|'hard'|'medium';
+export type difficultyType = 'EASY'|'IMPOSSIBLE'|'DIFFICULT'|'HARD'|'MEDIUM';
 
 export type BasicHole = {
   ID: string;
-  Difficulty: difficultyType;
   Name: string;
+  Difficulty: difficultyType;
   Question: string;
-  LowestScore: number;
+
+  CreatedAt: Date;
+  CreatedBy: string;
+  LastUpdatedAt: Date;
+  Active: boolean;
 }
 
 export type BasicLeaderboardEntry = {
@@ -32,11 +36,12 @@ export type BasicSubmission = {
 
 export type BasicProfile = {
   BGID: string;
-  CreatedTime: Date;
-  URL: string;
-  AvatarURL: string;
-  ID: string;
-  Login: string; // Login is profile name
+  GithubUser: GithubUser;
 }
 
-
+export type GithubUser = {
+  AvatarURL: string;
+  ID: number;
+  Login: string;
+  URL: string;
+}

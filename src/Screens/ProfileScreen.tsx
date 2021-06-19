@@ -1,15 +1,26 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import Nav from '../Components/Nav/Nav';
 import { PrimaryColor, ThirdColor } from '../Globals';
-import { BASIC_PROFILE } from '../Mock/BasicProfile';
+import { GetProfile } from '../Store/Profile';
+import NotFoundScreen from './NotFoundScreen';
 
 const ProfileScreen: React.FC = () => {
-  const { bgid } = useParams<{bgid: string}>();
-
-  const profile = BASIC_PROFILE;
   const classes = useStyles();
+  const { bgid } = useParams<{bgid: string}>();
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  const profile = useQuery(['Profile', bgid], () => GetProfile(bgid));
+  if (profile.isLoading) return (<p>Loading...</p>);
+  if (profile.isError) return (<p>Error loading profile {profile.error}</p>);
+  if (!profile.data) return (<NotFoundScreen active='profile' text={`Profile ${bgid} was not found!`} />);
   
   return (
     <div>
@@ -17,11 +28,11 @@ const ProfileScreen: React.FC = () => {
       <div className={classes.profileTopHeader}>
         <div className={classes.profileBody}>
           <div className={classes.profileDetailsContainer}>
-            <img className={classes.profileImage} height="200px" width="200px" src={profile.AvatarURL} alt={`${profile.ID} github`} />
+            <img className={classes.profileImage} height="200px" width="200px" src={profile.data.GithubUser.AvatarURL} alt={`${profile.data.GithubUser.ID} github`} />
 
             <div className={classes.profileTextWrapper}>
-              <p style={{fontWeight: 'bolder', fontSize: '2rem', padding: '0', margin: '0'}}>{profile.Login.toUpperCase()}</p>
-              <p className={classes.profileGithub} onClick={() => window.open(profile.URL, "_blank")}>{profile.URL}</p>
+              <p style={{fontWeight: 'bolder', fontSize: '2rem', padding: '0', margin: '0'}}>{profile.data.GithubUser.Login.toUpperCase()}</p>
+              <p className={classes.profileGithub} onClick={() => window.open(profile.data?.GithubUser.URL, "_blank")}>{profile.data?.GithubUser.URL}</p>
             </div>
           </div>
 

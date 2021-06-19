@@ -4,15 +4,18 @@ import Nav from '../Components/Nav/Nav';
 import { PrimaryColor } from '../Globals';
 import Logo from '../Logo/bytegolf_logo-not-found-half.png';
 
-const NotFoundScreen: React.FC<{}> = () => {
+const NotFoundScreen: React.FC<{active?: 'home'|'play'|'recent'|'leaderboards'|'profile'|'none', text?: string}> = (props) => {
   const classes = useStyles();
+  const text = !!props.text ? (<p className={classes.notFoundText}>{props.text.toUpperCase()}</p>) :
+    (<p className={classes.notFoundText}>LOOKS LIKE A WATER HAZARD.<br/>THE PAGE YOU WERE LOOKING FOR WAS NOT FOUND.</p>);
+  const activeText = !!props.active ? (props.active) : 'none';
 
   return (
     <div className={classes.notFoundWrapper}>
-      <Nav active='none' />
+      <Nav active={activeText} />
       <div className={classes.notFoundBodyWrapper}>
         <img style={{margin:0, padding:0}} height='250px' width='500px' src={Logo} alt="Bytegolf not found logo" />
-        <p style={{color: 'white', fontSize: '1.6rem', margin: 0, padding: 0, textAlign: 'center'}}>LOOKS LIKE A WATER HAZARD.<br/>THE PAGE YOU WERE LOOKING FOR WAS NOT FOUND.</p>
+        {text}
       </div>
     </div>
   )
@@ -35,7 +38,13 @@ const useStyles= makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
-
+  },
+  notFoundText: {
+    color: 'white',
+    fontSize: '1.6rem',
+    margin: 0,
+    padding: 0,
+    textAlign: 'center'
   }
 })
 

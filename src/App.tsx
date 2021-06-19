@@ -1,5 +1,6 @@
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { PrimaryColor, SecondaryColor } from './Globals';
 import Router from './Router';
 
@@ -15,10 +16,13 @@ const theme = createMuiTheme({
 })
 
 const App: React.FC = () => {
+  const qc = new QueryClient();
   return (
-    <ThemeProvider theme={theme}>
-      <Router />
-    </ThemeProvider>
+    <QueryClientProvider client={qc}>
+      <ThemeProvider theme={theme}>
+        <Router />
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }
 

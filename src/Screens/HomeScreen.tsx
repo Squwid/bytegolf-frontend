@@ -6,9 +6,12 @@ import Logo from '../Logo/bytegolf_logo-half.png';
 import Markdown from '../Components/Markdown';
 import { HomeMarkdown } from '../HomeMarkdown';
 import Button from '../Components/Button/Button';
+import { useHistory } from 'react-router-dom';
 
 
 const HomeScreen: React.FC = () => {
+  const history = useHistory();
+
   return (
     <div>
       <Nav active={'home'}/>
@@ -18,8 +21,8 @@ const HomeScreen: React.FC = () => {
           <p style={text}>BYTEGOLF</p>
           <p style={smallText}>Solve code problems in the least amount of bytes!</p>
           <div style={btnGroup}>
-            <Button color={SecondaryColor} activeColor='white' fontSize='1.1rem' text="TEE OFF!"/>
-            <Button color={ThirdColor} activeColor='white' fontSize='1.1rem' text="SEE THE SOURCE CODE"/>
+            <Button onPress={() => history.push(`/play`)} color={SecondaryColor} activeColor='white' fontSize='1.1rem' text="TEE OFF!"/>
+            <Button onPress={() => window.open('https://github.com/Squwid/bytegolf', '_blank')} color={ThirdColor} activeColor='white' fontSize='1.1rem' text="SEE THE SOURCE CODE"/>
           </div>
         </div>
       </div>

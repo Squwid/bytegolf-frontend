@@ -2,18 +2,23 @@ import React from 'react';
 import Button from '../Components/Button/Button';
 import Nav from '../Components/Nav/Nav';
 import { PrimaryColor } from '../Globals';
-import { BASIC_HOLES } from '../Mock/BasicHoles';
 import Leaderboard from '../Components/Leaderboard/Leaderboard';
 import './screen.css';
 import { BasicHole } from '../Types';
 import MySubmissions from '../Components/MySubmissions/MySubmissions';
+import { ListHoles } from '../Store/Holes';
+import { useQuery } from 'react-query';
  
 
 const LeaderboardScreen: React.FC = () => {
   const [selectedHole, setSelectedHole] = React.useState<BasicHole|null>(null);
 
   // TODO: Get holes & Leaders for each hole
-  const holes = BASIC_HOLES;
+  const holes = useQuery('Holes', () =>  ListHoles());
+  if (holes.isLoading) return (<p>Is loading holes!</p>);
+  if (holes.isError || !holes.data) return (<p>Error getting holes: {holes.error}</p>)
+
+
 
   const onHoleClick = (hole: BasicHole) => {
     if (hole.ID === selectedHole?.ID) return;
@@ -53,7 +58,7 @@ const LeaderboardScreen: React.FC = () => {
       <Nav active={'leaderboards'} />
       <p className='screenTitle'>LEADERBOARDS</p>
       <div className='holesBtnContainer'>
-        {holes.map(hole => <Button onPress={() => onHoleClick(hole)} active={isHoleActive(hole)} color={PrimaryColor} activeColor='white' fontSize='1rem' text={hole.Name} />)}
+        {holes.data.map(hole => <Button onPress={() => onHoleClick(hole)} active={isHoleActive(hole)} color={PrimaryColor} activeColor='white' fontSize='1rem' text={hole.Name} />)}
       </div>
       
       {leaderboard()}

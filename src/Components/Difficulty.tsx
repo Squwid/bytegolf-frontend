@@ -4,17 +4,17 @@ import CSS from 'csstype';
 export const Difficulty: React.FC<{difficulty: difficultyType; style?: CSS.Properties}> = ({difficulty, style}): JSX.Element => {
   let color = 'black';
   switch (difficulty) {
-  case 'easy':
+  case 'EASY':
     color = '#20C639'
     break;
-  case 'impossible':
+  case 'IMPOSSIBLE':
     color = '#FF009D'
     break;
-  case 'difficult':
-  case 'hard':
+  case 'DIFFICULT':
+  case 'HARD':
     color = '#E31717'
     break;
-  case 'medium':
+  case 'MEDIUM':
     color = '#EB9F45'
     break;
   }

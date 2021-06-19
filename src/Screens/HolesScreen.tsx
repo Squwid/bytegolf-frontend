@@ -2,18 +2,22 @@ import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { makeStyles, Theme, withStyles } from '@material-ui/core/styles';
 import { createStyles } from '@material-ui/styles';
-import { BASIC_HOLES } from '../Mock/BasicHoles';
 import Nav from '../Components/Nav/Nav';
 import { PrimaryColor } from '../Globals';
 import './screen.css'
 import { Difficulty } from '../Components/Difficulty';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { ListHoles } from '../Store/Holes';
+import { useQuery } from 'react-query';
 
 
 const HolesScreen: React.FC = () => {
   const classes = useStyles();
-  
   const history = useHistory();
+
+  const holes = useQuery('Holes', () =>  ListHoles());
+  if (holes.isLoading) return (<p>Is loading holes!</p>);
+  if (holes.isError || !holes.data) return (<p>Error getting holes: {holes.error}</p>)
 
   return (
     <div>
@@ -31,10 +35,10 @@ const HolesScreen: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {BASIC_HOLES.map(hole => (
+              {holes.data.map(hole => (
                 <TRow key={hole.ID} onClick={() => history.push(`/play/${hole.ID}`)}>
                     <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} component="th" scope="row">{hole.Name.toUpperCase()}</TCell>
-                    <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'>{hole.LowestScore}</TCell>
+                    <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'>100</TCell>
                     <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'><Difficulty difficulty={hole.Difficulty} /></TCell>
                 </TRow>
               ))}

@@ -17,6 +17,7 @@ const Leaderboard: React.FC<Props> = (props) => {
 
   const classes = useStyles();
   const history = useHistory();
+  
 
   // TODO: add a check if no leaders for hole yet
 
