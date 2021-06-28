@@ -14,12 +14,12 @@ export type BasicHole = {
 
 export type BasicLeaderboardEntry = {
   ID: string; // random uuid most likely
-  Place: number;
+  Language: string;
+  Version: string;
+  Length: number;
+  HoleID: string;
   BGID: string;
   GitName: string;
-  Score: number;
-  Language: string;
-  HoleID: string;
 }
 
 export type BasicSubmission = {

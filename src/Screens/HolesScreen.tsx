@@ -9,6 +9,35 @@ import { Difficulty } from '../Components/Difficulty';
 import { useHistory } from 'react-router-dom';
 import { ListHoles } from '../Store/Holes';
 import { useQuery } from 'react-query';
+import { BasicHole } from '../Types';
+import { GetBestHoleScore } from '../Store/Subs';
+
+
+type RowProps = {
+  onClick: () => void;
+  hole: BasicHole;
+};
+
+const Row: React.FC<RowProps> = (props) => {
+  let score = '';
+  const bestScore = useQuery(['BestScore', props.hole.ID], () => GetBestHoleScore(props.hole.ID));
+  if (bestScore.isLoading || bestScore.isError || !bestScore.data) {
+    score = '';
+  } else if (bestScore.data === -1) {
+    score = '-';
+  } else {
+    score = `${bestScore.data}`;
+  } 
+
+
+  return (
+    <TRow key={props.hole.ID} onClick={props.onClick}>
+      <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} component="th" scope="row">{props.hole.Name.toUpperCase()}</TCell>
+      <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'>{score}</TCell>
+      <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'><Difficulty difficulty={props.hole.Difficulty} /></TCell>
+    </TRow>
+  )
+}
 
 
 const HolesScreen: React.FC = () => {
@@ -35,13 +64,7 @@ const HolesScreen: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {holes.data.map(hole => (
-                <TRow key={hole.ID} onClick={() => history.push(`/play/${hole.ID}`)}>
-                    <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} component="th" scope="row">{hole.Name.toUpperCase()}</TCell>
-                    <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'>100</TCell>
-                    <TCell padding={'none'} style={{paddingLeft: '10px', paddingRight: '10px'}} align='right'><Difficulty difficulty={hole.Difficulty} /></TCell>
-                </TRow>
-              ))}
+              {holes.data.map(hole => <Row hole={hole} onClick={() => history.push(`/play/${hole.ID}`)} />)}
             </TableBody>
           </Table>
         </TableContainer>

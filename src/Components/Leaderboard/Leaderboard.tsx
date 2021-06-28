@@ -3,8 +3,9 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import { createStyles } from '@material-ui/styles';
 import { makeStyles, Theme, withStyles } from '@material-ui/core/styles';
 import { PrimaryColor } from '../../Globals';
-import { BASIC_LEADERBOARDS } from '../../Mock/BasicLeaderboards';
 import { useHistory } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { GetLeaderboard } from '../../Store/Subs';
 
 type Props = {
   holeID: string;
@@ -13,13 +14,16 @@ type Props = {
 
 const Leaderboard: React.FC<Props> = (props) => {
   const limit = props.limit ? props.limit : 5;
-  const leaders = BASIC_LEADERBOARDS;
 
   const classes = useStyles();
   const history = useHistory();
-  
+
+  const leaders = useQuery(['Leaderboard', props.holeID], () => GetLeaderboard(props.holeID, limit));
+  if (leaders.isLoading) return (<p>loading leaderboards</p>);
+  if (leaders.isError) return (<p>Error getting leaderboards : {leaders.error}</p>);
 
   // TODO: add a check if no leaders for hole yet
+  if (!leaders.data || leaders.data.length === 0) return <p>No leaders for hole yet</p>;
 
   return (
     <TableContainer>
@@ -33,11 +37,11 @@ const Leaderboard: React.FC<Props> = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {leaders.map(leader => (
+          {leaders.data.map((leader, i) => (
             <TRow key={leader.ID} onClick={() => history.push(`/profile/${leader.BGID}`)}>
-              <TCell padding={'none'} style={{padding: '10px'}} component="th" scope="row">{leader.Place}</TCell>
+              <TCell padding={'none'} style={{padding: '10px'}} component="th" scope="row">{i+1}</TCell>
               <TCell padding={'none'} style={{padding: '10px'}} align='left'>{leader.GitName.toUpperCase()}</TCell>
-              <TCell padding={'none'} style={{padding: '10px'}} align='right'>{leader.Score}</TCell>
+              <TCell padding={'none'} style={{padding: '10px'}} align='right'>{leader.Length}</TCell>
               <TCell padding={'none'} style={{padding: '10px'}} align='right'>{leader.Language.toUpperCase()}</TCell>
             </TRow>
           ))}
