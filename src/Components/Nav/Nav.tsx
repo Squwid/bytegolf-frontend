@@ -16,7 +16,6 @@ const Nav: React.FC<Props> = (props) => {
 
     return (
       <Link style={{textDecoration: 'none'}} to={to} className={cName}>{txt}</Link>
-      // <p className={cName}>{txt}</p>
     );
   }
 
@@ -34,7 +33,7 @@ const Nav: React.FC<Props> = (props) => {
           {link('PLAY', '/play')}
           {link('RECENT', '/recent')}
           {link('LEADERBOARDS', '/leaderboard')}
-          {link('PROFILE', '/') /*  Profile page */} 
+          {link('PROFILE', '/profile') /*  Profile redirect page} */} 
         </div>
 
 

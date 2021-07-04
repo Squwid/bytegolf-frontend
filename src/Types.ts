@@ -45,3 +45,9 @@ export type GithubUser = {
   Login: string;
   URL: string;
 }
+
+export type Claims = {
+  BGID: string;
+  exp: number;
+  iat: number;
+}
