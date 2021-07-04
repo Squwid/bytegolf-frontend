@@ -22,15 +22,43 @@ export type BasicLeaderboardEntry = {
   GitName: string;
 }
 
-export type BasicSubmission = {
+/*
+// ShortSubmission is the short submission for the frontend to list all submissions,
+// correct or incorrect without the entire script
+type ShortSubmission struct {
+	ID            string
+	Language      string
+	Version       string
+	BGID          string
+	HoleID        string
+	Length        int64
+	SubmittedTime time.Time
+	Correct       bool
+}
+
+// FullSubmission is the full submission for the frontend including the script and all short submission data
+type FullSubmission struct {
+	ShortSubmission
+
+	HoleName string
+	Script   string
+}
+*/
+
+export type BasicShortSubmission = {
   ID: string; // random uuid
-  Score: number;
   Language: string;
+  Version: string;
   BGID: string;
-  GitName: string;  
   HoleID: string;
-  HoleName: string;
+  Length: number;
+  SubmittedTime: Date;
   Correct: boolean;
+  HoleName: string;
+}
+
+export type BasicFullSubmission = BasicShortSubmission & {
+  HoleName: string;
   Script: string;
 }
 

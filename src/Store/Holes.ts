@@ -8,7 +8,7 @@ export const ListHoles = async(): Promise<BasicHole[]> => {
 
     console.log(`*** ${url}`);
   
-    fetch(url)
+    fetch(url, {credentials: 'include'})
       .then(resp => {
         if (resp.status !== 200) return rej(`Got bad status code ${resp.status}`);
 
@@ -24,7 +24,7 @@ export const GetHole = async(id: string): Promise<BasicHole|undefined> => {
 
     console.log(`*** ${url}`);
 
-    fetch(url)
+    fetch(url, {credentials: 'include'})
       .then(resp => {
         if (resp.status === 404) return res(undefined);
         if (resp.status !== 200) return rej(`Got bad status code ${resp.status}`);

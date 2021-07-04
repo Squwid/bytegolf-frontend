@@ -1,5 +1,5 @@
 import { BackendURL } from "../Globals"
-import { BasicLeaderboardEntry } from "../Types";
+import { BasicFullSubmission, BasicLeaderboardEntry, BasicShortSubmission } from "../Types";
 
 // Returns -1 if does not exist, otherwise returns the score or rejects
 export const GetBestHoleScore = async(hole: string): Promise<number> => {
@@ -8,7 +8,7 @@ export const GetBestHoleScore = async(hole: string): Promise<number> => {
 
     console.log(`*** ${url}`);
 
-    fetch(url)
+    fetch(url, {credentials: 'include'})
       .then(resp => {
         if (resp.status !== 200) return rej(`Got bad status code ${resp.status}`);
 
@@ -29,12 +29,48 @@ export const GetLeaderboard = async(hole: string, limit: number, lang?: string):
 
     console.log(`*** ${url}`);
 
-    fetch(url)
+    fetch(url, {credentials: 'include'})
       .then(resp => {
         if (resp.status !== 200) return rej(`Got bad status code ${resp.status}`);
 
         res(resp.json());
       })
-      .catch(err => rej(`Error getting leaderboard ${err}`));
+      .catch(err => rej(err));
+  })
+}
+
+export const GetMySubmissions = async(hole?: string): Promise<BasicShortSubmission[]|undefined> => {
+  return new Promise((res, rej) => {
+    let url = `${BackendURL()}/submissions`;
+    if (hole) url = `${url}?hole=${hole}`;
+
+    console.log(`*** ${url}`);
+
+    fetch(url, {credentials: 'include'})
+      .then(resp => {
+        if (resp.status === 401) return res(undefined); // User is not logged in, show banner
+        if (resp.status !== 200) return rej(`Got bad status code ${resp.status}`);
+
+        res(resp.json());
+      })
+      .catch(err => rej(err));
+  });
+}
+
+export const GetFullSubmission = async(id: string): Promise<BasicFullSubmission|"not logged in"|"not found"> => {
+  return new Promise((res, rej) => {
+    let url = `${BackendURL()}/submissions/${id}`;
+    if (!id) return;
+
+    console.log(`*** ${url}`);
+
+    fetch(url, {credentials: 'include'})
+      .then(resp => {
+        if (resp.status === 401) return res("not logged in");
+        if (resp.status === 404) return res("not found");
+        if (resp.status !== 200) return rej(`got bad status code ${resp.status}`);
+        return res(resp.json());
+      })
+      .catch(err => rej(err));
   })
 }

@@ -48,7 +48,7 @@ const LeaderboardScreen: React.FC = () => {
     return (
       <div className='screenContainer'>
         <p className='screenSubText'>MY SUBMISSIONS</p>
-        <MySubmissions holeID={selectedHole.ID} />
+        <MySubmissions hole={selectedHole.ID} />
       </div>
     )
   }

@@ -7,7 +7,7 @@ export const GetProfile = async(bgid: string): Promise<BasicProfile|undefined> =
 
     console.log(`*** ${url}`);
 
-    fetch(url)
+    fetch(url, {credentials: 'include'})
       .then(resp => {
         if (resp.status === 404) return res(undefined);
         if (resp.status !== 200) return rej(`Got bad status code ${resp.status}`);

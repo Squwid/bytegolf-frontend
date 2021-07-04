@@ -4,13 +4,13 @@ import { makeStyles } from '@material-ui/core';
 import { PrimaryColor, SecondaryColor } from '../../Globals';
 
 type Props = {
-  type: 'info'|'error';
+  type: 'info'|'error'|'warn';
   text: string;
-  onClose?: () => void;
   timeout?: number;
   width?: CSS.Property.Width;
   height?: CSS.Property.Height;
   style?: CSS.Properties;
+  onClick?: ()=>void;
 }
 
 
@@ -27,19 +27,15 @@ const Notification: React.FC<Props> = (props) => {
       backgroundColor: '#FFCFC4',
       border: `1px ${SecondaryColor} solid`
     },
-    // exit: {
-    //   position: 'absolute',
-    //   marginTop: '0px',
-    //   fontWeight: 'normal',
-    //   paddingLeft: '760px',
-    //   color: 'black',
-    //   cursor: 'pointer'
-
-    // }
+    warn: {
+      color: '#ab900c',
+      backgroundColor: '#f0e999',
+      border: '1px #ab900c solid'
+    }
   })();
 
   return(
-    <div className={props.type === 'info' ? classes.info : classes.error} style={{
+    <div className={classes[props.type]} style={{
       height: !!props.height ? props.height : 'auto',
       width: !!props.width ? props.width : 'auto',
       fontFamily: 'FiraCode',
@@ -48,7 +44,7 @@ const Notification: React.FC<Props> = (props) => {
       borderRadius: '10px',
       cursor: 'pointer',
       ...props.style
-    }} onClick={props?.onClose}>
+    }} onClick={props?.onClick}>
       {/* <p className={classes.exit} onClick={props?.onClose}>X</p> */}
       <p>{props.text.toUpperCase()}</p>
     </div>
