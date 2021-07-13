@@ -27,6 +27,7 @@ import 'ace-builds/src-noconflict/mode-golang';
 import 'ace-builds/src-noconflict/mode-powershell';
 import 'ace-builds/src-noconflict/mode-batchfile';
 import 'ace-builds/src-noconflict/theme-crimson_editor';
+import LoadingIcon from '../Logo/LoadingIcon/LoadingIcon';
 
 const PlayScreen: React.FC = () => {
   const { holeID } = useParams<{holeID: string}>();
@@ -76,6 +77,7 @@ const PlayScreen: React.FC = () => {
           <Notification type='info' text='This is a test run' style={{marginBottom: '1rem'}}/>
           <Notification type='error' text='Dave found joy in the daily routine of life. He awoke at the same time, ate the same breakfast and drove the same commute.' style={{marginBottom: '1rem'}}/>
           <Notification type='warn' text='This is a warning message, click to login' style={{marginBottom: '1rem'}} />
+          <LoadingIcon style={{height: '50px', width: '50px'}} />
         </div>
 
         <div style={{margin: '0 auto', display: 'flex', flexDirection: 'row-reverse', flexWrap: 'nowrap', width: '80%'}}>

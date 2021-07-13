@@ -19,7 +19,7 @@ const Leaderboard: React.FC<Props> = (props) => {
   const history = useHistory();
 
   const leaders = useQuery(['Leaderboard', props.holeID], () => GetLeaderboard(props.holeID, limit));
-  if (leaders.isLoading) return (<p>loading leaderboards</p>);
+  if (leaders.isLoading) return (<p>LOADING LEADERBOARDS</p>);
   if (leaders.isError) return (<p>Error getting leaderboards : {leaders.error}</p>);
 
   // TODO: add a check if no leaders for hole yet

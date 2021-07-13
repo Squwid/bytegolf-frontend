@@ -15,9 +15,10 @@ RUN rm -rf /usr/share/nginx/html/*
 
 COPY --from=build /build/ /usr/share/nginx/html
 
+ARG BACKEND_URI=https://dev-api.byte.golf
 
 ENV PORT 8080
-ENV REACT_APP_BACKEND_URI=https://dev-api.byte.golf
+ENV REACT_APP_BACKEND_URI=${BACKEND_URI}
 EXPOSE ${PORT}
 
 CMD ["nginx", "-g", "daemon off;"]
