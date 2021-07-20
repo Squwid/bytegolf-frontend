@@ -5,8 +5,6 @@ type Props = {
   style?: React.CSSProperties;
 };
 
-const LoadingIcon: React.FC<Props> = (props) => {
-  return (<img style={props.style} src={Icon} alt="Loading Icon"/>)
-}
+const LoadingIcon: React.FC<Props> = (props) => (<img style={props.style} src={Icon} alt="Loading Icon"/>);
 
 export default LoadingIcon;

@@ -8,6 +8,8 @@ import { BasicHole } from '../Types';
 import MySubmissions from '../Components/MySubmissions/MySubmissions';
 import { ListHoles } from '../Store/Holes';
 import { useQuery } from 'react-query';
+import LoadingScreen from './PsuedoScreens/LoadingScreens';
+import ErrorScreen from './PsuedoScreens/ErrorScreen';
  
 
 const LeaderboardScreen: React.FC = () => {
@@ -15,10 +17,8 @@ const LeaderboardScreen: React.FC = () => {
 
   // TODO: Get holes & Leaders for each hole
   const holes = useQuery('Holes', () =>  ListHoles());
-  if (holes.isLoading) return (<p>Is loading holes!</p>);
-  if (holes.isError || !holes.data) return (<p>Error getting holes: {holes.error}</p>)
-
-
+  if (holes.isLoading) return (<LoadingScreen active='leaderboards' />);
+  if (holes.isError || !holes.data) return (<ErrorScreen active='leaderboards' text={`${holes.error}`}/>);
 
   const onHoleClick = (hole: BasicHole) => {
     if (hole.ID === selectedHole?.ID) return;

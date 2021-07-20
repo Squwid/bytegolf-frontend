@@ -1,5 +1,7 @@
 export type difficultyType = 'EASY'|'IMPOSSIBLE'|'DIFFICULT'|'HARD'|'MEDIUM';
 
+export type NavType = 'home'|'play'|'recent'|'leaderboards'|'profile'|'none';
+
 export type BasicHole = {
   ID: string;
   Name: string;

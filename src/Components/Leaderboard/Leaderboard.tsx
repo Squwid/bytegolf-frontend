@@ -6,6 +6,9 @@ import { PrimaryColor } from '../../Globals';
 import { useHistory } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { GetLeaderboard } from '../../Store/Subs';
+import LoadingIcon from '../../Logo/LoadingIcon/LoadingIcon';
+import Notification from '../Notification/Notification';
+import { BasicLoadingIcon } from '../BasicLoadingIcon';
 
 type Props = {
   holeID: string;
@@ -19,11 +22,11 @@ const Leaderboard: React.FC<Props> = (props) => {
   const history = useHistory();
 
   const leaders = useQuery(['Leaderboard', props.holeID], () => GetLeaderboard(props.holeID, limit));
-  if (leaders.isLoading) return (<p>LOADING LEADERBOARDS</p>);
+  if (leaders.isLoading) return (<BasicLoadingIcon />);
   if (leaders.isError) return (<p>Error getting leaderboards : {leaders.error}</p>);
 
   // TODO: add a check if no leaders for hole yet
-  if (!leaders.data || leaders.data.length === 0) return <p>No leaders for hole yet</p>;
+  if (!leaders.data || leaders.data.length === 0) return <Notification type='info' text='NO LEADERS FOR HOLE YET' />;
 
   return (
     <TableContainer>

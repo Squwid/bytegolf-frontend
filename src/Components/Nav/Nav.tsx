@@ -5,9 +5,10 @@ import '../../Fonts/FiraCode/fira-code.css';
 import Logo from '../../Logo/bytegolf_logo-half.png';
 import './Nav.css';
 import { Link } from 'react-router-dom';
+import { NavType } from '../../Types';
 
 type Props = {
-  active: 'home'|'play'|'recent'|'leaderboards'|'profile'|'none';
+  active: NavType;
 }
 
 const Nav: React.FC<Props> = (props) => {

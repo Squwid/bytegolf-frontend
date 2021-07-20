@@ -11,6 +11,8 @@ import { ListHoles } from '../Store/Holes';
 import { useQuery } from 'react-query';
 import { BasicHole } from '../Types';
 import { GetBestHoleScore } from '../Store/Subs';
+import LoadingScreen from './PsuedoScreens/LoadingScreens';
+import ErrorScreen from './PsuedoScreens/ErrorScreen';
 
 
 type RowProps = {
@@ -45,8 +47,8 @@ const HolesScreen: React.FC = () => {
   const history = useHistory();
 
   const holes = useQuery('Holes', () =>  ListHoles());
-  if (holes.isLoading) return (<p>Is loading holes!</p>);
-  if (holes.isError || !holes.data) return (<p>Error getting holes: {holes.error}</p>)
+  if (holes.isLoading) return (<LoadingScreen active='play' />);
+  if (holes.isError || !holes.data) return (<ErrorScreen active='play' text={`${holes.error}`} />)
 
   return (
     <div>

@@ -10,6 +10,7 @@ import { useQuery } from 'react-query';
 import { GetFullSubmission, GetMySubmissions } from '../../Store/Subs';
 import { BasicShortSubmission } from '../../Types';
 import Notification from '../Notification/Notification';
+import { BasicLoadingIcon } from '../BasicLoadingIcon';
 
 import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-golang';
@@ -65,7 +66,7 @@ const SubmissionModal: React.FC<{id?: string, open: boolean, onClose: () => void
       onClose={props.onClose}
     >
       <div className={classes.modal}>
-        <p>LOADING SUBMISSION...</p>
+        <BasicLoadingIcon />
       </div>
     </Modal>
   );
@@ -143,8 +144,8 @@ const MySubmissions: React.FC<Props> = (props) => {
   const [subModal, setSubModal] = React.useState<string|undefined>(undefined);
   
   const submissions = useQuery(['Submissions', props?.hole], () => GetMySubmissions(props?.hole));
-  if (submissions.isLoading) return (<p>LOADING SUBMISSIONS</p>);
-  if (submissions.isError) return (<p>ERROR GETTING SUBMISSIONS : {submissions.error}</p>);
+  if (submissions.isLoading) return (<BasicLoadingIcon />);
+  if (submissions.isError) return (<Notification type='error' text={`${submissions.error}`} />);
   if (!submissions.data) return (<LoginNotification />)
   if (submissions.data.length === 0) return (<p style={{fontFamily:'FiraCode', fontWeight: 'lighter', textAlign: 'center'}}>NO SUBMISSIONS YET</p>);
   

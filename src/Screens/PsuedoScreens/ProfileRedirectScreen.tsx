@@ -1,8 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Nav from '../Components/Nav/Nav';
-import { BackendURL, RawBackendURL } from '../Globals';
-import { Claims } from '../Types';
+import Nav from '../../Components/Nav/Nav';
+import { BackendURL, RawBackendURL } from '../../Globals';
+import { Claims } from '../../Types';
+import LoadingScreen from './LoadingScreens';
 
 const ProfileRedirectScreen: React.FC = () => {
   const history = useHistory();
@@ -31,11 +32,7 @@ const ProfileRedirectScreen: React.FC = () => {
       })
   }, [history]);
 
-  return (
-  <div>
-    <Nav active={'profile'} />
-    Redirect Loading Screen...
-  </div>);
+  return (<LoadingScreen active='profile' />);
 }
 
 export default ProfileRedirectScreen;

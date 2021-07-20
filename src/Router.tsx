@@ -2,9 +2,9 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import HolesScreen from './Screens/HolesScreen';
 import HomeScreen from './Screens/HomeScreen';
 import LeaderboardScreen from './Screens/LeaderboardScreen';
-import NotFoundScreen from './Screens/NotFoundScreen';
+import NotFoundScreen from './Screens/PsuedoScreens/NotFoundScreen';
 import PlayScreen from './Screens/PlayScreen';
-import ProfileRedirectScreen from './Screens/ProfileRedirectScreen';
+import ProfileRedirectScreen from './Screens/PsuedoScreens/ProfileRedirectScreen';
 import ProfileScreen from './Screens/ProfileScreen';
 import RecentScreen from './Screens/RecentScreen';
 

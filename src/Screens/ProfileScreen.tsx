@@ -6,7 +6,9 @@ import { useLocation } from 'react-router-dom';
 import Nav from '../Components/Nav/Nav';
 import { PrimaryColor, ThirdColor } from '../Globals';
 import { GetProfile } from '../Store/Profile';
-import NotFoundScreen from './NotFoundScreen';
+import ErrorScreen from './PsuedoScreens/ErrorScreen';
+import LoadingScreen from './PsuedoScreens/LoadingScreens';
+import NotFoundScreen from './PsuedoScreens/NotFoundScreen';
 
 const ProfileScreen: React.FC = () => {
   const classes = useStyles();
@@ -18,8 +20,8 @@ const ProfileScreen: React.FC = () => {
   }, [pathname]);
 
   const profile = useQuery(['Profile', bgid], () => GetProfile(bgid));
-  if (profile.isLoading) return (<p>Loading...</p>);
-  if (profile.isError) return (<p>Error loading profile {profile.error}</p>);
+  if (profile.isLoading) return (<LoadingScreen active='profile' />);
+  if (profile.isError) return (<ErrorScreen active='profile' text={`${profile.error}`} />);
   if (!profile.data) return (<NotFoundScreen active='profile' text={`Profile ${bgid} was not found!`} />);
   
   return (

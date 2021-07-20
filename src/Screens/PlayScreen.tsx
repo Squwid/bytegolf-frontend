@@ -13,7 +13,9 @@ import './screen.css';
 import { useLocation } from 'react-router-dom';
 import { GetHole } from '../Store/Holes';
 import { useQuery } from 'react-query';
-import NotFoundScreen from './NotFoundScreen';
+import NotFoundScreen from './PsuedoScreens/NotFoundScreen';
+import LoadingIcon from '../Logo/LoadingIcon/LoadingIcon';
+import ErrorScreen from './PsuedoScreens/ErrorScreen';
 
 import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-python';
@@ -27,7 +29,7 @@ import 'ace-builds/src-noconflict/mode-golang';
 import 'ace-builds/src-noconflict/mode-powershell';
 import 'ace-builds/src-noconflict/mode-batchfile';
 import 'ace-builds/src-noconflict/theme-crimson_editor';
-import LoadingIcon from '../Logo/LoadingIcon/LoadingIcon';
+import LoadingScreen from './PsuedoScreens/LoadingScreens';
 
 const PlayScreen: React.FC = () => {
   const { holeID } = useParams<{holeID: string}>();
@@ -41,8 +43,8 @@ const PlayScreen: React.FC = () => {
   }, [pathname]);
 
   const hole = useQuery(['Hole', holeID], () => GetHole(holeID));
-  if (hole.isLoading) return (<p>Loading...</p>);
-  if (hole.isError) return (<p>Error loading hole {hole.error}</p>);
+  if (hole.isLoading) return (<LoadingScreen active='play'/>);
+  if (hole.isError) return (<ErrorScreen active='play' text={`${hole.error}`} />);
   if (!hole.data) return (<NotFoundScreen active='play' text={`Hole ${holeID} was not found`} />)
 
   const selectButton = (): JSX.Element => {
