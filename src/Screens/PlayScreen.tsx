@@ -8,14 +8,14 @@ import AceEditor from 'react-ace';
 import { PrimaryColor, SecondaryColor } from '../Globals';
 import Button from '../Components/Button/Button';
 import MySubmissions from '../Components/MySubmissions/MySubmissions';
-import Notification from '../Components/Notification/Notification';
+import Notification, { NotificationProps } from '../Components/Notification/Notification';
 import './screen.css';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { GetHole } from '../Store/Holes';
 import { useQuery } from 'react-query';
 import NotFoundScreen from './PsuedoScreens/NotFoundScreen';
-import LoadingIcon from '../Logo/LoadingIcon/LoadingIcon';
 import ErrorScreen from './PsuedoScreens/ErrorScreen';
+import LoadingScreen from './PsuedoScreens/LoadingScreens';
 
 import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-python';
@@ -29,23 +29,31 @@ import 'ace-builds/src-noconflict/mode-golang';
 import 'ace-builds/src-noconflict/mode-powershell';
 import 'ace-builds/src-noconflict/mode-batchfile';
 import 'ace-builds/src-noconflict/theme-crimson_editor';
-import LoadingScreen from './PsuedoScreens/LoadingScreens';
+import { GetClaims } from '../Store/Profile';
 
 const PlayScreen: React.FC = () => {
+  const { pathname } = useLocation();
   const { holeID } = useParams<{holeID: string}>();
+  const history = useHistory();
+
   const [ activeLanguage, setActiveLanguage ] = React.useState<Language>(getLanguage('python2'));
   const [ len, setLen ] = React.useState(0);
   const [ script, setScript ] = React.useState('');
-  const { pathname } = useLocation();
+  // const [ alerts, setAlerts ] = React.useState<NotificationProps[]>([]);
+  // onClick: () => setAlerts(old => [...old, {type: 'warn', text: 'another'}])
+  let alerts: NotificationProps[] = [];
   
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
+  
+  const claims = useQuery('Claims', () => GetClaims());
   const hole = useQuery(['Hole', holeID], () => GetHole(holeID));
-  if (hole.isLoading) return (<LoadingScreen active='play'/>);
-  if (hole.isError) return (<ErrorScreen active='play' text={`${hole.error}`} />);
-  if (!hole.data) return (<NotFoundScreen active='play' text={`Hole ${holeID} was not found`} />)
+  if (hole.isLoading || claims.isLoading) return (<LoadingScreen active='play'/>);
+  if (hole.isError || claims.isError) return (<ErrorScreen active='play' text={`${hole.error}`} />);
+  if (!hole.data) return (<NotFoundScreen active='play' text={`Hole ${holeID} was not found`} />);
+
+  if (!claims.data) alerts.push({type: 'warn', text: 'NOT LOGGED IN, CLICK HERE TO LOGIN TO PLAY', onClick: ()=>history.push('/profile')});
 
   const selectButton = (): JSX.Element => {
     return (
@@ -76,10 +84,7 @@ const PlayScreen: React.FC = () => {
 
         {/* Notifications, but multiple just in case */}
         <div style={{margin: '0 auto', marginTop: '1rem', display: 'flex', flexDirection: 'column', width: '80%'}}>
-          <Notification type='info' text='This is a test run' style={{marginBottom: '1rem'}}/>
-          <Notification type='error' text='Dave found joy in the daily routine of life. He awoke at the same time, ate the same breakfast and drove the same commute.' style={{marginBottom: '1rem'}}/>
-          <Notification type='warn' text='This is a warning message, click to login' style={{marginBottom: '1rem'}} />
-          <LoadingIcon style={{height: '50px', width: '50px'}} />
+          {alerts.map((a: NotificationProps, i: number) => (<Notification key={i} {...a} style={{marginBottom: '1rem'}} />))}
         </div>
 
         <div style={{margin: '0 auto', display: 'flex', flexDirection: 'row-reverse', flexWrap: 'nowrap', width: '80%'}}>
@@ -101,7 +106,7 @@ const PlayScreen: React.FC = () => {
         </div>
 
         <div style={{marginTop: '2rem'}}>
-          <p className='screenSubText'>PREVIOUS SUBMISSIONS</p>
+          <p className='screenSubText' style={{marginBottom: '20px'}}>PREVIOUS SUBMISSIONS</p>
           <MySubmissions hole={holeID} />
         </div>
 

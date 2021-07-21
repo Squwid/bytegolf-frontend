@@ -3,10 +3,10 @@ import CSS from 'csstype';
 import { makeStyles } from '@material-ui/core';
 import { PrimaryColor, SecondaryColor } from '../../Globals';
 
-type Props = {
+export type NotificationProps = {
   type: 'info'|'error'|'warn';
   text: string;
-  timeout?: number;
+  // timeout?: number;
   width?: CSS.Property.Width;
   height?: CSS.Property.Height;
   style?: CSS.Properties;
@@ -15,7 +15,7 @@ type Props = {
 
 
 
-const Notification: React.FC<Props> = (props) => {
+const Notification: React.FC<NotificationProps> = (props) => {
   const classes = makeStyles({
     info: {
       color: PrimaryColor,
@@ -45,7 +45,6 @@ const Notification: React.FC<Props> = (props) => {
       cursor: 'pointer',
       ...props.style
     }} onClick={props?.onClick}>
-      {/* <p className={classes.exit} onClick={props?.onClose}>X</p> */}
       <p>{props.text.toUpperCase()}</p>
     </div>
 

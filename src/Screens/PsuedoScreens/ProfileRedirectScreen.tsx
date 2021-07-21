@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Nav from '../../Components/Nav/Nav';
 import { BackendURL, RawBackendURL } from '../../Globals';
 import { Claims } from '../../Types';
 import LoadingScreen from './LoadingScreens';
